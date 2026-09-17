@@ -1,0 +1,3 @@
+-r requirements-model.txt
+-r code/deployment/api/requirements.txt
+-r code/deployment/app/requirements.txt

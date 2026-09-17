@@ -49,6 +49,7 @@ coverage.xml
 *.py.cover
 .hypothesis/
 .pytest_cache/
+.pytest-work/
 cover/
 
 # Translations
@@ -151,6 +152,7 @@ activemq-data/
 .env
 .envrc
 .venv
+.venv-assignment/
 env/
 venv/
 ENV/
@@ -219,3 +221,10 @@ __marimo__/
 
 # data folder (generates automatically during the pipeline)
 data/
+
+# Generated model packages and MLflow/Airflow runtime state
+models/*
+!models/.gitkeep
+mlruns/
+mlartifacts/
+services/airflow/logs/
