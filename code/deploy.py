@@ -5,6 +5,7 @@ from pathlib import Path
 import shutil
 import subprocess
 from tempfile import TemporaryDirectory
+from textwrap import dedent
 
 from schema import ROOT
 
@@ -37,7 +38,7 @@ def _deploy(root: Path, compose_file: Path) -> dict:
                               "--wait-timeout", "180"], check=True, timeout=240)
     # Execute from inside the API container: localhost here is the serving API,
     # not the scheduler container or a platform-dependent host gateway.
-    smoke_script = """
+    smoke_script = dedent("""
     import json, urllib.request
     health = json.load(urllib.request.urlopen('http://localhost:8000/health', timeout=10))
     sample = {'ph': 7.0, 'Hardness': 196.0, 'Solids': 22000.0, 'Chloramines': 7.0,
@@ -50,9 +51,13 @@ def _deploy(root: Path, compose_file: Path) -> dict:
     assert 0 <= result['probability_potable'] <= 1
     assert health['run_id'] == result['run_id']
     print(json.dumps(result))
-    """
-    result = subprocess.run(compose + ["exec", "-T", "api", "python", "-c", smoke_script],
-                            check=True, capture_output=True, text=True, timeout=30)
+    """)
+    try:
+        result = subprocess.run(compose + ["exec", "-T", "api", "python", "-c", smoke_script],
+                                check=True, capture_output=True, text=True, timeout=30)
+    except subprocess.CalledProcessError as error:
+        details = error.stderr or error.stdout or str(error)
+        raise RuntimeError(f"Deployment prediction check failed:\n{details}") from error
     prediction = json.loads(result.stdout)
     if prediction["run_id"] != metadata["run_id"]:
         raise RuntimeError("Serving model does not match the newly trained MLflow run")
