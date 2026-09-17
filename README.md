@@ -60,7 +60,6 @@ services/
   airflow/Dockerfile
   airflow/dags/          Scheduled pipeline
   mlflow/Dockerfile
-tests/                   Cleaning, MLflow packaging, and HTTP integration checks
 docker-compose.yaml      Airflow, PostgreSQL, and MLflow infrastructure
 requirements*.txt        Pinned runtime and test dependencies
 ```
