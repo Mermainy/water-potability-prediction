@@ -12,7 +12,7 @@ from schema import ROOT
 
 def deploy(root: Path = ROOT) -> dict:
     # Send only serving sources and the model to Docker. This also avoids
-    # BuildKit traversing Windows-mounted virtualenvs or restricted test folders.
+    # BuildKit traversing Windows-mounted virtualenvs or unrelated folders.
     files = [
         "code/schema.py", "code/features.py", "code/deployment/docker-compose.yml",
         "code/deployment/api/Dockerfile", "code/deployment/api/requirements.txt",

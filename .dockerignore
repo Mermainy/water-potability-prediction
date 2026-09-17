@@ -9,8 +9,5 @@ data
 mlruns
 mlartifacts
 services/airflow/logs
-.pytest_cache
-.pytest-work
 .env
-tests
 # Keep models in the build context: the API image packages the trained artifact.

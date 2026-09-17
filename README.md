@@ -61,7 +61,7 @@ services/
   airflow/dags/          Scheduled pipeline
   mlflow/Dockerfile
 docker-compose.yaml      Airflow, PostgreSQL, and MLflow infrastructure
-requirements*.txt        Pinned runtime and test dependencies
+requirements*.txt        Pinned runtime dependencies
 ```
 
 Docker runs store data, model packages, logs, and tracking state in persistent named volumes. See the guide to inspect or export them; these are separate from the host's generated files. The existing notebook is preserved.
